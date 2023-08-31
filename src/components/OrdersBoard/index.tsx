@@ -13,15 +13,16 @@ export const OrdersBoard = ({ icon, title, orders }: OrdersBoardsProps) => {
       <header>
         <span>{icon} </span>
         <strong>{title} </strong>
-        <span>(2)</span>
+        <span>({orders.length})</span>
       </header>
-
-      <OrdersContainer>
-        <button type="button">
-          <strong>Mesa 2</strong>
-          <span>2 itens</span>
-        </button>
-      </OrdersContainer>
+      { orders.map((order) => (
+        <OrdersContainer key={order._id}>
+          <button type="button">
+            <strong>{order.table}</strong>
+            <span>{order.products.length} itens</span>
+          </button>
+        </OrdersContainer>
+      ))}
     </Board>
   )
 }
