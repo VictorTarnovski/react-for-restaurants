@@ -1,8 +1,16 @@
-import { Table } from '../types/Table'
+import { Dish } from '../types/Dish'
 
-export const tables: Table[] = [
+export const dishes: Dish[] = [
   {
-    id: 'a49d0d4f-5f7a-46bb-a804-ba1a1c8740d3',
-    name: 'My Table'
+    id: '96701939-bf45-44e1-965f-09f456e5ddc3',
+    name: 'Hambúrguer',
+    price: 3200,
+    dishIngredients: []
+  },
+  {
+    id: '96701939-bf45-44e1-965f-09f456e5dd11',
+    name: 'Coca',
+    price: 5000,
+    dishIngredients: []
   }
 ]

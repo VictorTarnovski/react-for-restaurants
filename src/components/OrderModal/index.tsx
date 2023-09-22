@@ -1,4 +1,3 @@
-// import { Order } from '../../types/Order'
 import { ModalBody, Overlay, OrderDetails } from './styles'
 import closeIcon from '../../assets/images/close-icon.svg'
 import { OrderWithRelatedInfo } from '../../types/Order'
@@ -33,15 +32,19 @@ export const OrderModal = ({ visible, setIsVisible, order }: OrderModalProps) =>
         </div>
 
         <OrderDetails>
-          <strong> Itens </strong>
-
-          {order.orderDishes.map((orderDish) => {
+          <>
+            <strong> Itens </strong>
+            {console.log(order)}
+            {order.orderDishes.map((orderDish) => {
             return (
               <div key={orderDish.id}>
-                {orderDish.dishId}
+                Prato: {orderDish.dish.name}
+                <br/>
+                Quantidade: {orderDish.quantityPerOrder}
               </div>
             )
-          })}
+            })}
+          </>
         </OrderDetails>
       </ModalBody>
     </Overlay>

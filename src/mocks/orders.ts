@@ -9,9 +9,15 @@ export const orders: Order[] = [
     orderDishes: [
       {
         id: '393f5311-f87a-4a9f-8722-dc4c3ec9c020',
-        orderId: '93690910-3914-4e16-bcf0-d031e234ccc2',
-        dishId: '17c22b06-b716-4a87-ada6-940f18b6e51f',
+        orderId: '6372e48cbcd195b0d3d0f7f3',
+        dishId: '96701939-bf45-44e1-965f-09f456e5ddc3',
         quantityPerOrder: 2
+      },
+      {
+        id: '393f5311-f87a-4a9f-8722-dc4c3ec9c021',
+        orderId: '6372e48cbcd195b0d3d0f7f3',
+        dishId: '96701939-bf45-44e1-965f-09f456e5dd11',
+        quantityPerOrder: 3
       }
     ],
   }

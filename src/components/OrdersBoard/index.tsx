@@ -25,6 +25,14 @@ export const OrdersBoard = ({ icon, title, orders }: OrdersBoardsProps) => {
     }
   })
 
+  const sumQuantity = (order: OrderWithRelatedInfo): number => {
+    let quantity: number = 0
+    for(const orderDish of order.orderDishes) {
+      quantity = quantity + orderDish.quantityPerOrder
+    }
+    return quantity
+  }
+
   return (
     <Board>
       <OrderModal visible={isModalVisible} setIsVisible={setIsModalVisible} order={selectedOrder}/>
@@ -37,7 +45,7 @@ export const OrdersBoard = ({ icon, title, orders }: OrdersBoardsProps) => {
         <OrdersContainer key={order.id}>
           <button type="button" onClick={() => { return handleOpenModal(order) }}>
             <strong>Mesa {order.table.name}</strong>
-            <span>{order.orderDishes.length} itens</span>
+            <span>{sumQuantity(order)} itens</span>
           </button>
         </OrdersContainer>
       )))}

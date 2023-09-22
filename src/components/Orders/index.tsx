@@ -2,16 +2,15 @@ import { OrdersBoard } from '../OrdersBoard'
 import { Container } from './styles'
 import { orders } from '../../mocks/orders'
 import { tables } from '../../mocks/tables'
+import { dishes } from '../../mocks/dishes'
 import { Order, OrderDish, OrderDishWithRelatedInfo, OrderWithRelatedInfo, OrderStatusIcons, OrderStatusLabel } from '../../types/Order'
 import { Table } from '../../types/Table'
-import { Dish } from '../../types/Dish'
 
 const findRelatedTable = (id: string): Table | undefined => {
   return tables.find((table) => table.id === id)
 }
 
 const findRelatedOrderDish = (orderDishes: OrderDish[]): OrderDishWithRelatedInfo[] => {
-  const dishes: Dish[] =[]
   const orderDishesToReturn: OrderDishWithRelatedInfo[] = []
 
   for (const orderDish of orderDishes) {
