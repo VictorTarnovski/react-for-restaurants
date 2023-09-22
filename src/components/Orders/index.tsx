@@ -1,13 +1,50 @@
 import { OrdersBoard } from '../OrdersBoard'
 import { Container } from './styles'
 import { orders } from '../../mocks/orders'
+import { tables } from '../../mocks/tables'
+import { Order, OrderDish, OrderDishWithRelatedInfo, OrderWithRelatedInfo, OrderStatusIcons, OrderStatusLabel } from '../../types/Order'
+import { Table } from '../../types/Table'
+import { Dish } from '../../types/Dish'
+
+const findRelatedTable = (id: string): Table | undefined => {
+  return tables.find((table) => table.id === id)
+}
+
+const findRelatedOrderDish = (orderDishes: OrderDish[]): OrderDishWithRelatedInfo[] => {
+  const dishes: Dish[] =[]
+  const orderDishesToReturn: OrderDishWithRelatedInfo[] = []
+
+  for (const orderDish of orderDishes) {
+    const { dishId, orderId,...rest } = orderDish
+
+    for(const dish of dishes) {
+      if (dishId === dish.id) {
+        orderDishesToReturn.push({ ...rest, dish })
+      } else {
+        continue
+      }
+    }
+
+  }
+  return orderDishesToReturn
+}
+
+const findRelatedOrderInfo = (orders: Order[]): OrderWithRelatedInfo[] => {
+  const relatedOrders: OrderWithRelatedInfo[] = orders.map((order) => {
+    const { id, orderDishes: orderDishesToRelate, status, tableId } = order
+    const table = findRelatedTable(tableId)
+    const orderDishes = findRelatedOrderDish(orderDishesToRelate)
+    return { id, status, table: table!, orderDishes }
+  })
+  return relatedOrders
+}
 
 export const Orders = () => {
   return (
     <Container>
-      <OrdersBoard icon="⏲️" title="Fila de espera" orders={orders}/>
-      <OrdersBoard icon="👨‍🍳" title="Em preparação" orders={[]}/>
-      <OrdersBoard icon="✔️" title="Pronto!" orders={[]}/>
+      <OrdersBoard icon={OrderStatusIcons.WAITING} title={OrderStatusLabel.WAITING} orders={findRelatedOrderInfo(orders)}/>
+      <OrdersBoard icon={OrderStatusIcons.IN_PROCESS} title={OrderStatusLabel.IN_PROCESS} orders={[]}/>
+      <OrdersBoard icon={OrderStatusIcons.FINISHED} title={OrderStatusLabel.FINISHED} orders={[]}/>
     </Container>
   )
 }
