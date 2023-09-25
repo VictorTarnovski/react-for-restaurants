@@ -10,7 +10,7 @@ export const dishes: Dish[] = [
   {
     id: '96701939-bf45-44e1-965f-09f456e5dd11',
     name: 'Coca',
-    price: 5000,
+    price: 500,
     dishIngredients: []
   }
 ]

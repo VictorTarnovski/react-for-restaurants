@@ -14,7 +14,7 @@ const findRelatedOrderDish = (orderDishes: OrderDish[]): OrderDishWithRelatedInf
   const orderDishesToReturn: OrderDishWithRelatedInfo[] = []
 
   for (const orderDish of orderDishes) {
-    const { dishId, orderId,...rest } = orderDish
+    const { dishId,...rest } = orderDish
 
     for(const dish of dishes) {
       if (dishId === dish.id) {

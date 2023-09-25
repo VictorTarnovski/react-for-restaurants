@@ -18,34 +18,26 @@ export const OrdersBoard = ({ icon, title, orders }: OrdersBoardsProps) => {
     setSelectedOrder(order)
   }
 
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      setIsModalVisible(false)
-      setSelectedOrder(null)
-    }
-  })
-
-  const sumQuantity = (order: OrderWithRelatedInfo): number => {
-    let quantity: number = 0
-    for(const orderDish of order.orderDishes) {
-      quantity = quantity + orderDish.quantityPerOrder
-    }
-    return quantity
+  const handleCloseModal = () => {
+    setIsModalVisible(false)
+    setSelectedOrder(null)
   }
+
+  const sumTotalOrderQuantity = (order: OrderWithRelatedInfo): number => order.orderDishes.reduce((total, orderDish) => total + orderDish.quantityPerOrder, 0)
 
   return (
     <Board>
-      <OrderModal visible={isModalVisible} setIsVisible={setIsModalVisible} order={selectedOrder}/>
+      <OrderModal onClose={handleCloseModal} visible={isModalVisible} order={selectedOrder}/>
       <header>
-        <span>{icon} </span>
-        <strong>{title} </strong>
+        <span>{icon}</span>
+        <strong>{title}</strong>
         <span>({orders.length})</span>
       </header>
       { orders.length > 0 && (orders.map((order) => (
         <OrdersContainer key={order.id}>
-          <button type="button" onClick={() => { return handleOpenModal(order) }}>
+          <button type="button" onClick={() => handleOpenModal(order)}>
             <strong>Mesa {order.table.name}</strong>
-            <span>{sumQuantity(order)} itens</span>
+            <span>{sumTotalOrderQuantity(order)} itens</span>
           </button>
         </OrdersContainer>
       )))}
