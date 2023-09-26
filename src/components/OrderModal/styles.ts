@@ -82,7 +82,7 @@ export const OrderDetails = styled.div`
       }
 
       .product-details {
-        margin-left: 4px;
+        margin-right: 4px;
 
         strong {
           display: block;

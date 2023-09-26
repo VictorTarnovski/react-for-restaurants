@@ -2,7 +2,8 @@ import { ModalBody, Overlay, OrderDetails, Actions } from './styles'
 import closeIcon from '../../assets/images/close-icon.svg'
 import { OrderWithRelatedInfo } from '../../types/Order'
 import { OrderStatusIcons, OrderStatusLabel } from '../../types/Order'
-import { useEffect } from 'react'
+import { useContext, useEffect } from 'react'
+import { OrdersContext } from '../../contexts/OrdersContext'
 
 interface OrderModalProps {
   visible: boolean
@@ -10,12 +11,14 @@ interface OrderModalProps {
   onClose: () => void
 }
 
-export const OrderModal = ({ visible, onClose, order }: OrderModalProps) => {
+export const OrderModal = ({ visible, order, onClose }: OrderModalProps) => {
   if (!visible || !order) return null
+
+  const { orders, setOrders } = useContext(OrdersContext)
 
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
-      event.key === 'Escape' ? onClose(): null
+      event.key === 'Escape' ? onClose() : null
     }
 
     document.addEventListener('keydown', handleKeyDown)
@@ -24,6 +27,22 @@ export const OrderModal = ({ visible, onClose, order }: OrderModalProps) => {
       document.removeEventListener('keydown', handleKeyDown)
     }
   }, [])
+
+  const handleOrderStatusChange = () => {
+    const tempOrders = [...orders]
+    const i = tempOrders.findIndex(o => o.id === order.id)
+    tempOrders[i].status = (tempOrders[i].status === 'WAITING' ? 'IN_PROCESS' : 'FINISHED')
+    setOrders(tempOrders)
+    onClose()
+  }
+
+  const handleOrderCancel = () => {
+    const tempOrders = [...orders]
+    const i = tempOrders.findIndex(o => o.id === order.id)
+    tempOrders.splice(i, 1)
+    setOrders(tempOrders)
+    onClose()
+  }
 
   return (
     <Overlay>
@@ -51,30 +70,28 @@ export const OrderModal = ({ visible, onClose, order }: OrderModalProps) => {
             {order.orderDishes.map((orderDish) => (
               <div className="item" key={orderDish.id}>
 
-                <img
-                  src=""
-                  alt={orderDish.dish.name}
-                  width="56"
-                  height="28.51"
-                />
-
-                <span className="quantity">{orderDish.quantityPerOrder}x</span>
-
                 <div className="product-details">
                   <strong> {orderDish.dish.name} </strong>
                 </div>
+
+                <span className="quantity">x{orderDish.quantityPerOrder}</span>
+
               </div>
             ))}
           </div>
         </OrderDetails>
 
         <Actions>
-          <button type="button" className="primary">
-            <span>{OrderStatusIcons[order.status]}</span>
-            <strong>{OrderStatusLabel[order.status]}</strong>
-          </button>
+          {order.status !== 'FINISHED' && (
+            <>
+              <button type="button" className="primary" onClick={handleOrderStatusChange}>
+                Mover para:
+                <span>{order.status === 'WAITING' ? OrderStatusIcons.IN_PROCESS : OrderStatusIcons.FINISHED}</span>
+                <strong>{order.status === 'WAITING' ? OrderStatusLabel.IN_PROCESS : OrderStatusLabel.FINISHED}</strong>
+              </button>
 
-          <button type="button" className="secondary">Cancelar pedido</button>
+              <button type="button" className="secondary" onClick={handleOrderCancel}>Cancelar pedido</button>
+            </>)}
         </Actions>
       </ModalBody>
     </Overlay>
