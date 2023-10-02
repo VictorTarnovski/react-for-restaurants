@@ -46,15 +46,15 @@ const mapOrders = (orders: Order[]) => {
 
   for (const order of orders) {
     switch (order.status) {
-      case 'WAITING':
-        waitingOrders.push(order)
-        continue;
-      case 'IN_PROCESS':
-        inProcessOrders.push(order)
-        continue;
-      case 'FINISHED':
-        finishedOrders.push(order)
-        continue;
+    case 'WAITING':
+      waitingOrders.push(order)
+      continue
+    case 'IN_PROCESS':
+      inProcessOrders.push(order)
+      continue
+    case 'FINISHED':
+      finishedOrders.push(order)
+      continue
     }
   }
   return { waitingOrders, inProcessOrders, finishedOrders }
