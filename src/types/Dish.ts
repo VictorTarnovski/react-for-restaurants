@@ -1,11 +1,8 @@
+import { DishIngredient } from './DishIngredient'
+
 export type Dish = {
   id: string,
   name: string,
   price: number,
-  dishIngredients: {
-    id: string,
-    dishId: string,
-    ingredientId: string,
-    quantityPerDish: number
-  }[]
+  dishIngredients: DishIngredient[]
 }
