@@ -1,4 +1,3 @@
-import logo from '../../assets/images/logo.svg'
 import { Container, Content } from './styles'
 
 
@@ -12,7 +11,6 @@ export const Header = () => {
         </div>
       </Content>
 
-      <img src={logo} alt="WAITERAPP" />
     </Container>
   )
 }
